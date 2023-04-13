@@ -1,0 +1,3 @@
+#Unnescissary Package Data
+node_modules/
+package-lock.json
