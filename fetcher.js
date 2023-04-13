@@ -13,28 +13,38 @@ const fs = require('fs');                     //Import 'fs' for file writing
 const request = require('request');           //Import 'request' for http request
 
 
-if (input.length > 2) {
-  console.log("Incorrect Input: Please provide just a URL and file for data storage (http://www.example.edu/ ./index.html)")
+if (input.length !== 2) {
+  console.log("Incorrect Input: Provide just a URL and file for data storage (node fetcher.js <URL> <FILE>)")
+  return;
 }
 
 const URL = input[0]
 const FILE = input[1]
-console.log(URL, FILE);
-let content;
+// console.log(URL, FILE);
 
+//TRY THIS: RUNNING THE REQUEST FUNCTION IN THE FILE WRITE FUNCTIONS PARAMS/ARGS.  IN REQUEST, RETURN body
+//ALSO: maybe index file has to exist first?! >> Not necissary, if file exists it will just be over written
+//MAYBE: return the body so it can be used in the writeFile func?
 
 
 request(URL, (error, response, body) => {
   console.log('error:', error); // Print the error if one occurred
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  content = body
-});
+  //console.log(body.length);  Checking for bytes>>>works
+  fs.writeFile(FILE, body, err => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  })
+})
 
 
 
-fs.writeFile(FILE, content, err => {
-  if (err) {
-    console.error(err);
-  }
-  // file written successfully
-});
+
+// fs.writeFile(FILE, content, err => {
+//   if (err) {
+//     console.error(err);
+//   }
+//   // file written successfully
+// });
